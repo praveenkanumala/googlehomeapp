@@ -2,6 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 const querystring = require("querystring");
 var httprequest = require('request');
+var port=Number(process.env.PORT || 3000);
+
 
 var app = express();
 
@@ -110,7 +112,7 @@ router.post("/clubdetails", function(req, res) {
 
  });
  
-var server = app.listen(8080, function () {
+var server = app.listen(port, function () {
     console.log("Server listening on port %s...", server.address().port);
 });
 
