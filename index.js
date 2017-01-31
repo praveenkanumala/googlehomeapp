@@ -73,12 +73,15 @@ router.post("/clubdetails", function(req, res) {
 	    		var clublocatorpayload = JSON.parse(body); 		
 				res.set('Content-Type', 'application/json');  
 				var txt = '';
+				var clubtxt = '';
 				if(clublocatorpayload.payload.clubs.length === 1) {
 					txt = 'There is ';
+					clubtxt = ' club I found near by ';
 				} else {
 					txt = 'There are ';
+					clubtxt = ' clubs I found near by ';
 				}
-				var speechtxt = txt + clublocatorpayload.payload.clubs.length+ ' clubs I found near by '+postaladdress + 
+				var speechtxt = txt + clublocatorpayload.payload.clubs.length+ clubtxt + postaladdress + 
 					' and the nearest club is '+ clublocatorpayload.payload.clubs[0].clubName + ' at '
 					+ clublocatorpayload.payload.clubs[0].address.streetAddress+' '
 					+clublocatorpayload.payload.clubs[0].address.city + ' '+ clublocatorpayload.payload.clubs[0].address.state;
