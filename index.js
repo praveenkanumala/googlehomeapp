@@ -78,7 +78,7 @@ router.post("/clubdetails", function(req, res) {
 				} else {
 					txt = 'There are ';
 				}
-				var speechtxt = txt + clublocatorpayload.payload.clubs.length+ ' clubs near by'+req.body.postaladdress + 
+				var speechtxt = txt + clublocatorpayload.payload.clubs.length+ ' clubs I found near by '+postaladdress + 
 					' and the nearest club is '+ clublocatorpayload.payload.clubs[0].clubName + ' at '
 					+ clublocatorpayload.payload.clubs[0].address.streetAddress+' '
 					+clublocatorpayload.payload.clubs[0].address.city + ' '+ clublocatorpayload.payload.clubs[0].address.state;
