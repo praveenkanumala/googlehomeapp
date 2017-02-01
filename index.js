@@ -36,7 +36,8 @@ var itemaislemappling = {
 	'iPad':'12',
 	'Fitbit':'13',
 	'Cameras':'14',
-	'Batteries':'15'
+	'Batteries':'15',
+	'diapers':'19'
 };
  
 app.use(bodyParser.json());
