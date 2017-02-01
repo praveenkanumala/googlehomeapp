@@ -19,6 +19,25 @@ var options = {
     	'wm_svc.version': '1.0.0'
   	}
 };
+
+var itemaislemappling = {
+	'bananas': '16' , 
+	'Organic Bananas': '1' , 
+	'Samsung TV': '2',
+	'Olive oil': '3',
+	'Almonds':'4',
+	'Pistachios': '5',
+	'Organic Quinoa': '6',
+	'Brown Rice':'7',
+	'White Rice':'8',
+	'Cereals':'9',
+	'Coconut water':'10',
+	'Tablets':'11',
+	'iPad':'12',
+	'Fitbit':'13',
+	'Cameras':'14',
+	'Batteries':'15'
+};
  
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,8 +57,41 @@ router.post("/clubdetails", function(req, res) {
     var parameters =  req.body.result.parameters;
     var location;
     var postaladdress;
+    var action = req.body.result.action;    
 
-    if(Object.prototype.hasOwnProperty.call(parameters, 'location')){
+    if(action === 'find.aisle'){
+    	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
+    		var itemname = parameters.item;
+    		var aisle = itemaislemappling[itemname];
+    		//var itemobject = JSON.parse(itemaislemappling);    		
+    		console.log('item name: '+itemname);
+    		res.set('Content-Type', 'application/json');  
+			var speechtxt;
+    		if(aisle !== undefined){
+    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname;
+    		}  else{
+    			speechtxt = 'We are sorry we cannot find the item where it is located!!!!';
+    		}
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: '',
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
+    	} else {
+    		res.set('Content-Type', 'application/json');   
+			var speechtxt = 'We are sorry we cannot find the item where it is located!!!!';
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: '',
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
+    	}
+    } else {
+    	    if(Object.prototype.hasOwnProperty.call(parameters, 'location')){
     	location = parameters.location;
     	if(Object.prototype.hasOwnProperty.call(location, 'geo-city-us') && 
     		Object.prototype.hasOwnProperty.call(location, 'geo-state-us')){
@@ -70,44 +122,46 @@ router.post("/clubdetails", function(req, res) {
 	    options.url = url;
 	    console.log('url: '+ url);
 	    httprequest.get(options, function (error, response, body) {
-	  		if (!error && response.statusCode == 200) {
-	    		console.log(body) // Show the HTML for the Google homepage. 
-	    		var clublocatorpayload = JSON.parse(body); 		
-				res.set('Content-Type', 'application/json');  
-				var txt = '';
-				var clubtxt = '';
-				if(clublocatorpayload.payload.clubs.length === 1) {
-					txt = 'There is ';
-					clubtxt = ' club I found near by ';
-				} else {
-					txt = 'There are ';
-					clubtxt = ' clubs I found near by ';
-				}
-				var speechtxt = txt + clublocatorpayload.payload.clubs.length+ clubtxt + postaladdress + 
-					' and the nearest club is '+ clublocatorpayload.payload.clubs[0].clubName + ' at '
-					+ clublocatorpayload.payload.clubs[0].address.streetAddress+' '
-					+clublocatorpayload.payload.clubs[0].address.city + ' '+ clublocatorpayload.payload.clubs[0].address.state;
+		  		if (!error && response.statusCode == 200) {
+		    		console.log(body) // Show the HTML for the Google homepage. 
+		    		var clublocatorpayload = JSON.parse(body); 		
+					res.set('Content-Type', 'application/json');  
+					var txt = '';
+					var clubtxt = '';
+					if(clublocatorpayload.payload.clubs.length === 1) {
+						txt = 'There is ';
+						clubtxt = ' club I found near by ';
+					} else {
+						txt = 'There are ';
+						clubtxt = ' clubs I found near by ';
+					}
+					var speechtxt = txt + clublocatorpayload.payload.clubs.length+ clubtxt + postaladdress + 
+						' and the nearest club is '+ clublocatorpayload.payload.clubs[0].clubName + ' at '
+						+ clublocatorpayload.payload.clubs[0].address.streetAddress+' '
+						+clublocatorpayload.payload.clubs[0].address.city + ' '+ clublocatorpayload.payload.clubs[0].address.state;
 
-				var responsepayload = {
-	    			speech: speechtxt,
-	    			displayText: speechtxt,
-	    			data: clublocatorpayload,
-	    			source: 'testapi'
-	    		};		
-				res.send(JSON.stringify(responsepayload));
-	  		} else {
-				res.set('Content-Type', 'application/json');   
-	  			var speechtxt = 'There are no clubs found near by';
-	  			var responsepayload = {
-	    			speech: speechtxt,
-	    			displayText: speechtxt,
-	    			data: '',
-	    			source: 'testapi'
-	    		};
-	    		res.send(JSON.stringify(responsepayload));
-	  		}
-		});
+					var responsepayload = {
+		    			speech: speechtxt,
+		    			displayText: speechtxt,
+		    			data: clublocatorpayload,
+		    			source: 'testapi'
+		    		};		
+					res.send(JSON.stringify(responsepayload));
+		  		} else {
+					res.set('Content-Type', 'application/json');   
+		  			var speechtxt = 'There are no clubs found near by';
+		  			var responsepayload = {
+		    			speech: speechtxt,
+		    			displayText: speechtxt,
+		    			data: '',
+		    			source: 'testapi'
+		    		};
+		    		res.send(JSON.stringify(responsepayload));
+		  		}
+			});
+    	}
     }
+
     
 
  });
