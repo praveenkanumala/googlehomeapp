@@ -136,11 +136,21 @@ router.post("/clubdetails", function(req, res) {
 						txt = 'There are ';
 						clubtxt = ' clubs I found near by ';
 					}
-					var speechtxt = txt + clublocatorpayload.payload.clubs.length+ clubtxt + postaladdress + 
-						' and the nearest club is '+ clublocatorpayload.payload.clubs[0].clubName + ' at '
-						+ clublocatorpayload.payload.clubs[0].address.streetAddress+' '
-						+clublocatorpayload.payload.clubs[0].address.city + ' '+ clublocatorpayload.payload.clubs[0].address.state;
 
+					var speechtxt = 'There are no clubs found near by';
+
+					for(var club in clublocatorpayload.payload.clubs){
+
+						if(clublocatorpayload.payload.clubs[club].clubAvailable){
+							speechtxt = txt + clublocatorpayload.payload.clubs.length+ clubtxt + postaladdress + 
+										' and the nearest club is '+ clublocatorpayload.payload.clubs[club].clubName + ' at '
+										+ clublocatorpayload.payload.clubs[club].address.streetAddress+' '
+										+clublocatorpayload.payload.clubs[club].address.city + ' '+ clublocatorpayload.payload.clubs[club].address.state;
+							break;			
+						}
+					}
+
+					
 					var responsepayload = {
 		    			speech: speechtxt,
 		    			displayText: speechtxt,
