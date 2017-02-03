@@ -80,7 +80,7 @@ router.post("/clubdetails", function(req, res) {
     			var alternateitem = alternateitems[itemname];   
     			if(alternateitem !== undefined){
     				var alternateitemaisle = itemaislemappling[alternateitem];	
-    				speechtxt = 'We do not carry'+itemname+' but we do have '+ alternateitem+' in Asile '+alternateitemaisle;
+    				speechtxt = 'We do not carry '+itemname+' but we do have Pinot Noir from '+ alternateitem+' in aisle '+alternateitemaisle;
     			} else {
 	    			speechtxt = 'We are sorry we cannot find the item where it is located!!!!';
     			}
