@@ -37,7 +37,13 @@ var itemaislemappling = {
 	'Fitbit':'13',
 	'Cameras':'14',
 	'Batteries':'15',
-	'diapers':'19'
+	'diapers':'17',
+	'milk':'18',
+	'sonoma coast': '20'
+};
+
+var alternateitems = {
+	'Kenwood Pinot Noir': 'sonoma coast'
 };
  
 app.use(bodyParser.json());
@@ -71,7 +77,13 @@ router.post("/clubdetails", function(req, res) {
     		if(aisle !== undefined){
     			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname;
     		}  else{
-    			speechtxt = 'We are sorry we cannot find the item where it is located!!!!';
+    			var alternateitem = alternateitems[itemname];   
+    			if(alternateitem !== undefined){
+    				var alternateitemaisle = itemaislemappling[alternateitem];	
+    				speechtxt = 'We do not carry'+itemname+' but we do have '+ alternateitem+' in Asile '+alternateitemaisle;
+    			} else {
+	    			speechtxt = 'We are sorry we cannot find the item where it is located!!!!';
+    			}
     		}
 			var responsepayload = {
 				speech: speechtxt,
