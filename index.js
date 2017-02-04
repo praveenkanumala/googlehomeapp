@@ -82,7 +82,7 @@ router.post("/clubdetails", function(req, res) {
     				var alternateitemaisle = itemaislemappling[alternateitem];	
     				speechtxt = 'We do not carry '+itemname+' but we do have Pinot Noir from '+ alternateitem+' in aisle '+alternateitemaisle;
     			} else {
-	    			speechtxt = 'We are sorry this item is out of stock. You can get it online at Samsclub.com';
+	    			speechtxt = 'We are sorry this item is out of stock. It is available online at Samsclub.com';
     			}
     		}
 			var responsepayload = {
