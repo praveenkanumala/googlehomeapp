@@ -20,6 +20,12 @@ var options = {
   	}
 };
 
+var data = {
+    			'google': {
+    				'expect_user_response': false
+    			}
+    		};
+
 var itemaislemappling = {
 	'bananas': '16' , 
 	'Organic Bananas': '1' , 
@@ -42,8 +48,27 @@ var itemaislemappling = {
 	'sonoma coast': '20'
 };
 
+var stockstatus = {
+	'bananas': 'instock' , 
+	'Organic Bananas': 'instock' , 
+	'Samsung TV': 'instock',
+	'Olive oil': 'instock',
+	'Almonds':'instock',
+	'Pistachios': 'instock',
+	'duracell batteries':'instock',
+	'Batteries':'instock',
+	'diapers':'instock',
+	'milk':'instock',
+	'sonoma coast': 'instock'
+};
+
+var moreItemInformation = {
+	'Kashi Chocolate Almond and Sea Salt Granola Bars': 'Its 4.5 star rated product Total fat 2grams and protein 6grams Currently $2 off as its on instant savings'
+};
+
 var alternateitems = {
-	'Kenwood Pinot Noir': 'sonoma coast'
+	'Kenwood Pinot Noir': 'sonoma coast',
+	'nutritional lara bars': 'Kashi Chocolate Almond and Sea Salt Granola Bars'
 };
  
 app.use(bodyParser.json());
@@ -70,25 +95,41 @@ router.post("/clubdetails", function(req, res) {
     	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
     		var itemname = parameters.item;
     		var aisle = itemaislemappling[itemname];
+    		var outputItemName;
     		//var itemobject = JSON.parse(itemaislemappling);    		
     		console.log('item name: '+itemname);
     		res.set('Content-Type', 'application/json');  
 			var speechtxt;
     		if(aisle !== undefined){
-    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname;
+    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname + ' Would you like more information for the item';
     		}  else{
-    			var alternateitem = alternateitems[itemname];   
+    			var alternateitem = alternateitems[itemname]; 
+    			outputItemName = alternateitem;
     			if(alternateitem !== undefined){
     				var alternateitemaisle = itemaislemappling[alternateitem];	
-    				speechtxt = 'We do not carry '+itemname+' but we do have Pinot Noir from '+ alternateitem+' in aisle '+alternateitemaisle;
+    				speechtxt = 'We do not carry '+itemname+' but we do have Pinot Noir from '+ alternateitem+' in aisle '+alternateitemaisle +  ' Would you like more information for the item';
     			} else {
 	    			speechtxt = 'We are sorry this item is out of stock. It is available online at Samsclub.com';
     			}
     		}
+    		
+  			var contextOuts;
+  			var responseexpected = false;
+  			if(outputItemName !== undefined){
+  			 	contextOuts = [{name:"more-item-data",lifespan:2,parameters:{itemNameReturned:outputItemName}}];
+  			 	responseexpected = true;
+  			}
+  			var dataOut = {
+    			google: 
+    			{
+    				expect_user_response: responseexpected
+    			}
+  			};
 			var responsepayload = {
 				speech: speechtxt,
 				displayText: speechtxt,
-				data: '',
+				data: dataOut,
+				contextOut: contextOuts,
 				source: 'testapi'
 			};
 			res.send(JSON.stringify(responsepayload));
@@ -103,16 +144,80 @@ router.post("/clubdetails", function(req, res) {
 			};
 			res.send(JSON.stringify(responsepayload));
     	}
-    } else {
-    	    if(Object.prototype.hasOwnProperty.call(parameters, 'location')){
-    	location = parameters.location;
-    	if(Object.prototype.hasOwnProperty.call(location, 'geo-city-us') && 
-    		Object.prototype.hasOwnProperty.call(location, 'geo-state-us')){
-    		postaladdress = location['geo-city-us']+' '+location['geo-state-us'];
-    	} else if(Object.prototype.hasOwnProperty.call(location, 'zip-code')){
-    		postaladdress = location['zip-code'];
+    } else if(action === 'stock.information'){
+    	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
+    		var itemname = parameters.item;
+    		var stock = stockstatus[itemname];
+    		//var itemobject = JSON.parse(itemaislemappling);    		
+    		console.log('item name: '+itemname);
+    		res.set('Content-Type', 'application/json');  
+			var speechtxt;
+    		if(stock === 'instock'){
+    			speechtxt = itemname+' are out of stock, you can find those at the nearest Samsclub which is 5 miles away or online at Samsclub.com';
+    		}  else{
+    			speechtxt = 'We are sorry this item is out of stock.';
+    		}
+    		
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: dataOut,
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
+    	} else {
+    		res.set('Content-Type', 'application/json');   
+			var speechtxt = 'We are sorry we cannot find the item!!!';
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: '',
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
     	}
-    }
+    } else if(action === 'item.information'){
+    	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
+    		var itemname = parameters.item;
+    		var iteminformation = moreItemInformation[itemname];
+    		//var itemobject = JSON.parse(itemaislemappling);    		
+    		console.log('item name: '+itemname);
+    		res.set('Content-Type', 'application/json');  
+			var speechtxt;
+    		if(stock !== undefined){
+    			speechtxt = iteminformation;
+    		}  else{
+    			speechtxt = 'We are sorry this item is not available.';
+    		}
+    		
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: dataOut,
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
+    	} else {
+    		res.set('Content-Type', 'application/json');   
+			var speechtxt = 'We are sorry this item is not available.';
+			var responsepayload = {
+				speech: speechtxt,
+				displayText: speechtxt,
+				data: '',
+				source: 'testapi'
+			};
+			res.send(JSON.stringify(responsepayload));
+    	}
+    } else {
+    	if(Object.prototype.hasOwnProperty.call(parameters, 'location')){
+    		location = parameters.location;
+    		if(Object.prototype.hasOwnProperty.call(location, 'geo-city-us') && 
+    			Object.prototype.hasOwnProperty.call(location, 'geo-state-us')){
+    			postaladdress = location['geo-city-us']+' '+location['geo-state-us'];
+    		} else if(Object.prototype.hasOwnProperty.call(location, 'zip-code')){
+    			postaladdress = location['zip-code'];
+    		}
+    	}
 
     if(postaladdress === undefined){
     	res.set('Content-Type', 'application/json');   
