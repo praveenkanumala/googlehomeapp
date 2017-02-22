@@ -45,7 +45,8 @@ var itemaislemappling = {
 	'Batteries':'15',
 	'diapers':'17',
 	'milk':'18',
-	'sonoma coast': '20'
+	'sonoma coast': '20',
+	'Kashi Chocolate Almond and Sea Salt Granola Bars': '21'
 };
 
 var stockstatus = {
