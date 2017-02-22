@@ -101,7 +101,7 @@ router.post("/clubdetails", function(req, res) {
     		res.set('Content-Type', 'application/json');  
 			var speechtxt;
     		if(aisle !== undefined){
-    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname + ' Would you like more information for the item';
+    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname ;
     		}  else{
     			var alternateitem = alternateitems[itemname]; 
     			outputItemName = alternateitem;
@@ -184,7 +184,7 @@ router.post("/clubdetails", function(req, res) {
     		console.log('item name: '+itemname);
     		res.set('Content-Type', 'application/json');  
 			var speechtxt;
-    		if(stock !== undefined){
+    		if(iteminformation !== undefined){
     			speechtxt = iteminformation;
     		}  else{
     			speechtxt = 'We are sorry this item is not available.';
