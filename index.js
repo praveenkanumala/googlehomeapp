@@ -128,7 +128,7 @@ router.post("/clubdetails", function(req, res) {
 			var responsepayload = {
 				speech: speechtxt,
 				displayText: speechtxt,
-				data: dataOut,
+				data: '',
 				contextOut: contextOuts,
 				source: 'testapi'
 			};
@@ -161,7 +161,7 @@ router.post("/clubdetails", function(req, res) {
 			var responsepayload = {
 				speech: speechtxt,
 				displayText: speechtxt,
-				data: dataOut,
+				data: '',
 				source: 'testapi'
 			};
 			res.send(JSON.stringify(responsepayload));
@@ -193,7 +193,7 @@ router.post("/clubdetails", function(req, res) {
 			var responsepayload = {
 				speech: speechtxt,
 				displayText: speechtxt,
-				data: dataOut,
+				data: '',
 				source: 'testapi'
 			};
 			res.send(JSON.stringify(responsepayload));
