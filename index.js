@@ -107,7 +107,7 @@ router.post("/clubdetails", function(req, res) {
     			outputItemName = alternateitem;
     			if(alternateitem !== undefined){
     				var alternateitemaisle = itemaislemappling[alternateitem];	
-    				speechtxt = 'We do not carry '+itemname+' but we do have Pinot Noir from '+ alternateitem+' in aisle '+alternateitemaisle +  ' Would you like more information for the item';
+    				speechtxt = 'We do not carry '+itemname+' but we do have '+ alternateitem+' in aisle '+alternateitemaisle +  ' Would you like more information for the item';
     			} else {
 	    			speechtxt = 'We are sorry this item is out of stock. It is available online at Samsclub.com';
     			}
@@ -116,7 +116,7 @@ router.post("/clubdetails", function(req, res) {
   			var contextOuts;
   			var responseexpected = false;
   			if(outputItemName !== undefined){
-  			 	contextOuts = [{name:"more-item-data",lifespan:2,parameters:{itemNameReturned:outputItemName}}];
+  			 	contextOuts = [{name:"more-item-data",lifespan:1,parameters:{itemNameReturned:outputItemName}}];
   			 	responseexpected = true;
   			}
   			var dataOut = {
@@ -128,7 +128,7 @@ router.post("/clubdetails", function(req, res) {
 			var responsepayload = {
 				speech: speechtxt,
 				displayText: speechtxt,
-				data: '',
+				data: dataOut,
 				contextOut: contextOuts,
 				source: 'testapi'
 			};
