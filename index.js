@@ -28,47 +28,49 @@ var data = {
 
 var itemaislemappling = {
 	'bananas': '16' , 
-	'Organic Bananas': '1' , 
+	'Bananas': '16' , 
+	'organic bananas': '1' , 
 	'Samsung TV': 'the electronic section',
-	'Olive oil': 'Front of Aisle 21',
-	'Almonds':'back of aisle 20 on the right',
-	'Pistachios': 'Back of the club next to the fresh vegetables',
-	'Organic Quinoa': '6',
-	'Brown Rice':'back of Aisle 23',
-	'White Rice':'back of Aisle 23',
-	'Cereals':'27',
-	'Coconut water':'in between Aisle 22 and 23',
-	'Tablets':'11',
-	'iPad':'12',
-	'Fitbit':'13',
-	'Cameras':'14',
-	'Batteries':'in between checkout aisle 3 and 4',
+	'samsung tv': 'the electronic section',
+	'olive oil': 'Front of Aisle 21',
+	'almonds':'back of aisle 20 on the right',
+	'pistachios': 'Back of the club next to the fresh vegetables',
+	'organic quinoa': '6',
+	'brown rice':'back of Aisle 23',
+	'white rice':'back of Aisle 23',
+	'cereals':'27',
+	'coconut water':'in between Aisle 22 and 23',
+	'tablets':'11',
+	'ipad':'12',
+	'fitbit':'13',
+	'cameras':'14',
+	'batteries':'in between checkout aisle 3 and 4',
 	'diapers':'17',
 	'milk':'in the back right section of the club in the first refrigerator',
 	'sonoma coast': '20',
-	'Kashi Chocolate Almond and Sea Salt Granola Bars': '21'
+	'kashi chocolate almond and sea salt granola bars': '21'
 };
 
 var stockstatus = {
 	'bananas': 'instock' , 
-	'Organic Bananas': 'instock' , 
-	'Samsung TV': 'instock',
-	'Olive oil': 'instock',
-	'Almonds':'instock',
-	'Pistachios': 'instock',
+	'organic bananas': 'instock' , 
+	'samsung tv': 'instock',
+	'olive oil': 'instock',
+	'almonds':'instock',
+	'pistachios': 'instock',
 	'duracell batteries':'instock',
-	'Batteries':'instock',
+	'batteries':'instock',
 	'diapers':'instock',
 	'milk':'instock',
 	'sonoma coast': 'instock'
 };
 
 var moreItemInformation = {
-	'Kashi Chocolate Almond and Sea Salt Granola Bars': 'Its 4.5 star rated product Total fat 2grams and protein 6grams Currently $2 off as its on instant savings'
+	'kashi chocolate almond and sea salt granola bars': 'Its 4.5 star rated product Total fat 2grams and protein 6grams Currently $2 off as its on instant savings'
 };
 
 var alternateitems = {
-	'Kenwood Pinot Noir': 'sonoma coast',
+	'kenwood pinot noir': 'sonoma coast',
 	'nutritional lara bars': 'Kashi Chocolate Almond and Sea Salt Granola Bars'
 };
  
@@ -94,7 +96,7 @@ router.post("/clubdetails", function(req, res) {
 
     if(action === 'find.aisle'){
     	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
-    		var itemname = parameters.item;
+    		var itemname = parameters.item.toLowerCase();
     		var aisle = itemaislemappling[itemname];
     		var outputItemName;
     		//var itemobject = JSON.parse(itemaislemappling);    		
@@ -147,7 +149,7 @@ router.post("/clubdetails", function(req, res) {
     	}
     } else if(action === 'stock.information'){
     	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
-    		var itemname = parameters.item;
+    		var itemname = parameters.item.toLowerCase();
     		var stock = stockstatus[itemname];
     		//var itemobject = JSON.parse(itemaislemappling);    		
     		console.log('item name: '+itemname);
@@ -179,7 +181,7 @@ router.post("/clubdetails", function(req, res) {
     	}
     } else if(action === 'item.information'){
     	if(Object.prototype.hasOwnProperty.call(parameters, 'item')){
-    		var itemname = parameters.item;
+    		var itemname = parameters.item.toLowerCase();
     		var iteminformation = moreItemInformation[itemname];
     		//var itemobject = JSON.parse(itemaislemappling);    		
     		console.log('item name: '+itemname);
