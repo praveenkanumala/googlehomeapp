@@ -39,6 +39,7 @@ var itemaislemappling = {
 	'brown rice':'back of Aisle 23',
 	'white rice':'back of Aisle 23',
 	'cereals':'27',
+	'cereal':'27',
 	'coconut water':'in between Aisle 22 and 23',
 	'tablets':'11',
 	'ipad':'12',
