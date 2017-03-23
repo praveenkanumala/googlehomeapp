@@ -27,29 +27,29 @@ var data = {
     		};
 
 var itemaislemappling = {
-	'bananas': '16' , 
-	'Bananas': '16' , 
-	'organic bananas': '1' , 
+	'bananas': 'Aisle 16' , 
+	'Bananas': 'Aisle 16' , 
+	'organic bananas': 'Aisle 1' , 
 	'Samsung TV': 'the electronic section',
 	'samsung tv': 'the electronic section',
 	'olive oil': 'Front of Aisle 21',
 	'almonds':'back of aisle 20 on the right',
 	'pistachios': 'Back of the club next to the fresh vegetables',
-	'organic quinoa': '6',
+	'organic quinoa': 'Aisle 6',
 	'brown rice':'back of Aisle 23',
 	'white rice':'back of Aisle 23',
-	'cereals':'27',
-	'cereal':'27',
+	'cereals':'Aisle 27',
+	'cereal':'Aisle 27',
 	'coconut water':'in between Aisle 22 and 23',
-	'tablets':'11',
-	'ipad':'12',
-	'fitbit':'13',
-	'cameras':'14',
+	'tablets':'Aisle 11',
+	'ipad':'Aisle 12',
+	'fitbit':'Aisle 13',
+	'cameras':'Aisle 14',
 	'batteries':'in between checkout aisle 3 and 4',
-	'diapers':'17',
+	'diapers':'Aisle 17',
 	'milk':'in the back right section of the club in the first refrigerator',
-	'sonoma coast': '20',
-	'kashi chocolate almond and sea salt granola bars': '21'
+	'sonoma coast': 'Aisle 20',
+	'kashi chocolate almond and sea salt granola bars': 'Aisle 21'
 };
 
 var stockstatus = {
@@ -105,7 +105,7 @@ router.post("/clubdetails", function(req, res) {
     		res.set('Content-Type', 'application/json');  
 			var speechtxt;
     		if(aisle !== undefined){
-    			speechtxt = 'Please check aisle '+ itemaislemappling[itemname]+' for '+itemname ;
+    			speechtxt = 'Please check '+ itemaislemappling[itemname]+' for '+itemname ;
     		}  else{
     			var alternateitem = alternateitems[itemname]; 
     			outputItemName = alternateitem;
